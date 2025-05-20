@@ -1,0 +1,65 @@
+.adhesive-recommendations {
+    border: 1px solid #e8e8e8;
+    padding: 15px;
+    margin: 15px 0;
+    background-color: #ffffff;
+}
+
+.adhesive-recommendations h4 {
+    margin-top: 0;
+}
+
+.adhesive-option {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    background-color: #ffffff;
+}
+
+.adhesive-option:hover {
+    background-color: #f5f5f5;
+    border-color: #ccc;
+}
+
+.adhesive-option.selected {
+    background-color: #f0f7ff;
+    border-color: #0070c9;
+}
+
+/* Style for the "Don't buy any adhesive" option */
+.adhesive-option--none {
+    border-style: dashed;
+    margin-bottom: 20px;
+    /* Extra space after this option */
+}
+
+.adhesive-option--none.selected {
+    background-color: #f8f8f8;
+    border-color: #999;
+}
+
+.adhesive-option__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.adhesive-option__quantity {
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.adhesive-option__ratio {
+    margin-left: 5px;
+    font-size: 0.85em;
+}
+
+.adhesive-select {
+    cursor: pointer;
+}

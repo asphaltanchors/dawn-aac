@@ -1,0 +1,67 @@
+{% comment %}
+  Displays recommended adhesives for a product based on metaobject relationships.
+
+  Usage:
+  {% render 'product-adhesive-recommendations', product: product, section_id: section.id %}
+{% endcomment %}
+
+<div class="adhesive-recommendations">
+  <h4>Recommended Adhesives</h4>
+
+  <!-- Option to not buy any adhesive -->
+  <div class="adhesive-option adhesive-option--none" data-adhesive-id="none">
+    <div class="adhesive-option__header">
+      <div class="adhesive-option__title">
+        <strong>Don't buy any adhesive</strong>
+      </div>
+    </div>
+    <div class="adhesive-option__quantity">
+      <span>No additional products will be added</span>
+    </div>
+  </div>
+
+  {% assign has_adhesives = false %}
+  {% assign first_entry = true %}
+  {% for entry in metaobjects.anchor_adhesive_ratio.values %}
+    {% if entry.anchor.value.id == product.id %}
+      {% assign has_adhesives = true %}
+      {% assign ratio = entry.ratio.value | times: 1.0 %}
+
+      <!-- Mark the first adhesive option with a data attribute -->
+      {% if first_entry %}
+        {% assign first_entry = false %}
+        {% assign first_adhesive_id = entry.adhesive.value.id %}
+      {% endif %}
+
+      <div class="adhesive-option" data-ratio="{{ ratio }}" data-adhesive-id="{{ entry.adhesive.value.id }}">
+        <div class="adhesive-option__header">
+          <div class="adhesive-option__title">
+            <strong>{{ entry.adhesive.value.title }}</strong>
+          </div>
+        </div>
+
+        <div class="adhesive-option__quantity">
+          <span>Required quantity: </span>
+          <span
+            class="required-quantity"
+            data-ratio="{{ ratio }}"
+            data-price="{{ entry.adhesive.value.price | money }}"
+          >
+            {% assign base_quantity = product.selected_or_first_available_variant.quantity_rule.min | default: 1 %}
+            {% assign required_quantity_float = base_quantity | times: ratio %}
+            {% assign required_quantity = required_quantity_float | ceil %}
+            {{ required_quantity }}
+          </span>
+          <span class="adhesive-option__ratio"
+            >({{ ratio }} of {{ entry.adhesive.value.title }} -
+            {{ required_quantity | times: entry.adhesive.value.price | money }})</span
+          >
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+
+  {% unless has_adhesives %}
+    <p>No recommended adhesives for this product.</p>
+  {% endunless %}
+</div>

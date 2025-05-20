@@ -15,6 +15,7 @@
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+  {{ 'component-adhesive-recommendations.css' | asset_url | stylesheet_tag }}
 
   {% unless product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
@@ -41,6 +42,7 @@
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'adhesive-recommendations.js' | asset_url }}" defer="defer"></script>
   {%- if product.quantity_price_breaks_configured? -%}
     <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
@@ -467,30 +469,9 @@
               {%- when 'variant_picker' -%}
                 {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
               {%- when 'buy_buttons' -%}
-                {% comment %} DEBUG BOX START - Place test code below {% endcomment %}
-                <div
-                  class="debug-box-container"
-                  style="border: 2px dashed red; padding: 10px; margin: 15px 0; background-color: #fff0f0;"
-                >
-                  <h4 style="margin-top: 0; color: red;">DEBUG AREA</h4>
-
-                  {% for entry in metaobjects.anchor_adhesive_ratio.values %}
-                    {% if entry.anchor.value.id == product.id %}
-                      <p>
-                        handle: {{ entry.system.handle -}}
-                        <br>
-                        anchor: {{ entry.anchor -}}
-                        <br>
-                        anchor.value.title: {{ entry.anchor.value.title }}
-                        <br>
-                        anchor.ratio.value: {{ entry.ratio.value }}
-                        <br>
-                        adhesive.value.title: {{ entry.adhesive.value.title }}
-                      </p>
-                    {% endif %}
-                  {% endfor %}
-                </div>
-                {% comment %} DEBUG BOX END {% endcomment %}
+                {% comment %} Recommended Adhesives Section {% endcomment %}
+                {% render 'product-adhesive-recommendations', product: product, section_id: section.id %}
+                {% comment %} End Recommended Adhesives Section {% endcomment %}
 
                 {%- render 'buy-buttons',
                   block: block,
