@@ -356,7 +356,10 @@
                                 </dt>
                                 <dd>
                                   <span class="price-per-item--current">
-                                    {{- 'products.product.volume_pricing.price_at_each_html' | t: price: variant_price -}}
+                                    {{-
+                                      'products.product.volume_pricing.price_at_each_html'
+                                      | t: price: variant_price
+                                    -}}
                                   </span>
                                 </dd>
                               </dl>
@@ -464,6 +467,31 @@
               {%- when 'variant_picker' -%}
                 {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
               {%- when 'buy_buttons' -%}
+                {% comment %} DEBUG BOX START - Place test code below {% endcomment %}
+                <div
+                  class="debug-box-container"
+                  style="border: 2px dashed red; padding: 10px; margin: 15px 0; background-color: #fff0f0;"
+                >
+                  <h4 style="margin-top: 0; color: red;">DEBUG AREA</h4>
+
+                  {% for entry in metaobjects.anchor_adhesive_ratio.values %}
+                    {% if entry.anchor.value.id == product.id %}
+                      <p>
+                        handle: {{ entry.system.handle -}}
+                        <br>
+                        anchor: {{ entry.anchor -}}
+                        <br>
+                        anchor.value.title: {{ entry.anchor.value.title }}
+                        <br>
+                        anchor.ratio.value: {{ entry.ratio.value }}
+                        <br>
+                        adhesive.value.title: {{ entry.adhesive.value.title }}
+                      </p>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+                {% comment %} DEBUG BOX END {% endcomment %}
+
                 {%- render 'buy-buttons',
                   block: block,
                   product: product,
@@ -1674,7 +1702,7 @@
         {
           "type": "header",
           "content": "t:sections.main-product.blocks.icon_with_text.settings.pairing_2.label"
-        },        
+        },
         {
           "type": "select",
           "id": "icon_2",
@@ -1874,7 +1902,7 @@
         {
           "type": "header",
           "content": "t:sections.main-product.blocks.icon_with_text.settings.pairing_3.label"
-        },        
+        },
         {
           "type": "select",
           "id": "icon_3",
@@ -2176,7 +2204,7 @@
       ],
       "default": "hide",
       "label": "t:sections.main-product.settings.mobile_thumbnails.label"
-    },    
+    },
     {
       "type": "select",
       "id": "media_position",
